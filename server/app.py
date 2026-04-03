@@ -36,9 +36,6 @@ except Exception as e:  # pragma: no cover
     ) from e
 
 try:
-    from ..models import MyEnv2Action, MyEnv2Observation
-    from .my_env2_environment import MyEnv2Environment
-except ModuleNotFoundError:
     from models import MyEnv2Action, MyEnv2Observation
     from server.my_env2_environment import MyEnv2Environment
 
