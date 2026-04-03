@@ -35,10 +35,8 @@ except Exception as e:  # pragma: no cover
         "openenv is required for the web interface. Install dependencies with '\n    uv sync\n'"
     ) from e
 
-try:
-    from models import MyEnv2Action, MyEnv2Observation
-    from server.my_env2_environment import MyEnv2Environment
-
+from models import MyEnv2Action, MyEnv2Observation
+from server.my_env2_environment import MyEnv2Environment
 
 # Create the app with web interface and README integration
 app = create_app(
