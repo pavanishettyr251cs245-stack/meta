@@ -7,7 +7,8 @@ from openai import OpenAI
 
 from my_env2 import MyEnv2Action, MyEnv2Env
 
-IMAGE_NAME = os.getenv("IMAGE_NAME")
+LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME")
+IMAGE_NAME = LOCAL_IMAGE_NAME
 API_KEY = os.getenv("HF_TOKEN") or os.getenv("API_KEY")
 
 API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
