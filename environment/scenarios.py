@@ -24,7 +24,7 @@ class ScenarioGenerator:
                 "tag": "clean",
                 "description": "Valid auto claim within limits, complete docs",
                 "claim": {
-                    "type": ClaimType.AUTO,
+                    "claim_type": ClaimType.AUTO,
                     "amount": 2500,
                     "description": "Rear-ended at traffic light, moderate damage to bumper",
                     "incident_date": datetime.now() - timedelta(days=3),
@@ -66,7 +66,7 @@ class ScenarioGenerator:
                 "tag": "policy_violation",
                 "description": "Claim exceeding coverage limits",
                 "claim": {
-                    "type": ClaimType.HOME,
+                    "claim_type": ClaimType.HOME,
                     "amount": 15000,
                     "description": "Water damage from burst pipe, flooding basement",
                     "incident_date": datetime.now() - timedelta(days=5),
@@ -112,7 +112,7 @@ class ScenarioGenerator:
                 "tag": "borderline",
                 "description": "Claim at policy limit with missing docs",
                 "claim": {
-                    "type": ClaimType.HEALTH,
+                    "claim_type": ClaimType.HEALTH,
                     "amount": 5000,
                     "description": "Emergency room visit for severe allergic reaction",
                     "incident_date": datetime.now() - timedelta(days=2),
@@ -157,7 +157,7 @@ class ScenarioGenerator:
                 "tag": "fraud_suspicion",
                 "description": "Suspicious claim with inconsistent details",
                 "claim": {
-                    "type": ClaimType.AUTO,
+                    "claim_type": ClaimType.AUTO,
                     "amount": 4800,
                     "description": "Hit and run, car damaged",
                     "incident_date": datetime.now() - timedelta(days=1),
@@ -207,7 +207,7 @@ class ScenarioGenerator:
                 "tag": "conflicting_signals",
                 "description": "Complex claim with mixed signals",
                 "claim": {
-                    "type": ClaimType.HOME,
+                    "claim_type": ClaimType.HOME,
                     "amount": 9500,
                     "description": "Fire damage from electrical malfunction. Previous claim 6 months ago for similar issue.",
                     "incident_date": datetime.now() - timedelta(days=4),
@@ -252,7 +252,7 @@ class ScenarioGenerator:
                 "tag": "sophisticated_fraud",
                 "description": "Sophisticated fraud with professional documentation",
                 "claim": {
-                    "type": ClaimType.AUTO,
+                    "claim_type": ClaimType.AUTO,
                     "amount": 4950,
                     "description": "Multi-vehicle collision on highway, extensive damage to front and side. All documentation provided.",
                     "incident_date": datetime.now() - timedelta(days=10),
