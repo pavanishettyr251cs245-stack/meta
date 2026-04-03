@@ -1,104 +1,30 @@
-# Copyright (c) Meta Platforms, Inc. and affiliates.
-# All rights reserved.
-#
-# This source code is licensed under the BSD-style license found in the
-# LICENSE file in the root directory of this source tree.
-
-"""
-My Env2 Environment Implementation.
-
-A simple test environment that echoes back messages sent to it.
-Perfect for testing HTTP server infrastructure.
-"""
-
 from uuid import uuid4
-
-from openenv.core.env_server.interfaces import Environment
 from openenv.core.env_server.types import State
+from environment.core import InsuranceClaimEnvironment
+from environment.schemas import ClaimAction, ClaimObservation
 
 try:
     from ..models import MyEnv2Action, MyEnv2Observation
 except ImportError:
     from models import MyEnv2Action, MyEnv2Observation
 
-
-class MyEnv2Environment(Environment):
-    """
-    A simple echo environment that echoes back messages.
-
-    This environment is designed for testing the HTTP server infrastructure.
-    It maintains minimal state and simply echoes back whatever message it receives.
-
-    Example:
-        >>> env = MyEnv2Environment()
-        >>> obs = env.reset()
-        >>> print(obs.echoed_message)  # "My Env2 environment ready!"
-        >>>
-        >>> obs = env.step(MyEnv2Action(message="Hello"))
-        >>> print(obs.echoed_message)  # "Hello"
-        >>> print(obs.message_length)  # 5
-    """
-
-    # Enable concurrent WebSocket sessions.
-    # Set to True if your environment isolates state between instances.
-    # When True, multiple WebSocket clients can connect simultaneously, each
-    # getting their own environment instance (when using factory mode in app.py).
+class MyEnv2Environment:
     SUPPORTS_CONCURRENT_SESSIONS: bool = True
 
     def __init__(self):
-        """Initialize the my_env2 environment."""
+        self._env = InsuranceClaimEnvironment({"max_steps": 6})
         self._state = State(episode_id=str(uuid4()), step_count=0)
-        self._reset_count = 0
 
-    def reset(self) -> MyEnv2Observation:
-        """
-        Reset the environment.
-
-        Returns:
-            MyEnv2Observation with a ready message
-        """
+    def reset(self):
         self._state = State(episode_id=str(uuid4()), step_count=0)
-        self._reset_count += 1
+        obs = self._env.reset()
+        return obs
 
-        return MyEnv2Observation(
-            echoed_message="My Env2 environment ready!",
-            message_length=0,
-            done=False,
-            reward=0.0,
-        )
-
-    def step(self, action: MyEnv2Action) -> MyEnv2Observation:  # type: ignore[override]
-        """
-        Execute a step in the environment by echoing the message.
-
-        Args:
-            action: MyEnv2Action containing the message to echo
-
-        Returns:
-            MyEnv2Observation with the echoed message and its length
-        """
+    def step(self, action):
         self._state.step_count += 1
-
-        message = action.message
-        length = len(message)
-
-        # Simple reward: longer messages get higher rewards
-        reward = length * 0.1
-
-        return MyEnv2Observation(
-            echoed_message=message,
-            message_length=length,
-            done=False,
-            reward=reward,
-            metadata={"original_message": message, "step": self._state.step_count},
-        )
+        obs, reward, done, info = self._env.step(action)
+        return obs
 
     @property
-    def state(self) -> State:
-        """
-        Get the current environment state.
-
-        Returns:
-            Current State with episode_id and step_count
-        """
+    def state(self):
         return self._state
