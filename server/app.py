@@ -32,3 +32,14 @@ def main():
 
 if __name__ == "__main__":
     main()
+@app.get("/")
+def root():
+    return {
+        "name": "Insurance Claim Validation Environment",
+        "description": "OpenEnv-compatible RL environment for insurance claim validation",
+        "endpoints": {
+            "POST /reset": "Reset environment and get initial observation",
+            "POST /step": "Take a step with a ClaimAction",
+            "GET /state": "Get current environment state"
+        }
+    }
