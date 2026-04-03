@@ -6,7 +6,9 @@ RUN apt-get update && apt-get install -y \
     g++ \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --no-cache-dir openenv-core
+# Cache bust - force reinstall
+ARG CACHEBUST=2
+RUN pip install --no-cache-dir openenv-core fastapi uvicorn pydantic numpy
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
