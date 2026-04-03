@@ -5,6 +5,17 @@ from environment.core import InsuranceClaimEnvironment
 from environment.schemas import ClaimAction, ReasoningOutput
 
 app = FastAPI(title="Insurance Claim Validation Environment")
+@app.get("/")
+def root():
+    return {
+        "name": "Insurance Claim Validation Environment",
+        "description": "OpenEnv-compatible RL environment for insurance claim validation",
+        "endpoints": {
+            "POST /reset": "Reset environment",
+            "POST /step": "Take a step",
+            "GET /state": "Get current state"
+        }
+    }
 env = InsuranceClaimEnvironment({"max_steps": 6})
 
 @app.post("/reset")
