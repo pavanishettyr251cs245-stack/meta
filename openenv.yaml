@@ -1,7 +1,42 @@
-spec_version: 1
-name: my_env2
-type: space
-runtime: fastapi
-app: server.app:app
-port: 8000
+name: insurance-claim-validation
+version: 1.0.0
+description: AI-powered Insurance Claim Validation System with fraud detection and risk assessment
+author: OpenEnv Contributor
+tags:
+  - insurance
+  - fraud-detection
+  - risk-assessment
+  - decision-making
+  - multi-factor-reasoning
 
+observation_space:
+  type: structured
+  schema: ClaimObservation
+  description: Complete claim state including policy rules, documents, history, and risk signals
+
+action_space:
+  type: structured
+  schema: ClaimAction
+  actions:
+    - analyze_claim
+    - detect_fraud_signals
+    - approve_claim
+    - reject_claim
+    - escalate_claim
+    - request_additional_info
+    - ignore
+
+reward_range: [-1.0, 1.0]
+max_episode_steps: 6
+
+metadata:
+  difficulty_levels:
+    - easy
+    - medium
+    - hard
+  grading_weights:
+    decision_accuracy: 0.4
+    fraud_detection_quality: 0.3
+    reasoning_quality: 0.2
+    action_efficiency: 0.1
+  version: 1.0.0
