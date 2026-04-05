@@ -1,0 +1,26 @@
+FROM python:3.9-slim
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Cache bust - force reinstall
+ARG CACHEBUST=2
+RUN pip install --no-cache-dir openenv-core fastapi uvicorn pydantic numpy
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY environment/ ./environment/
+COPY inference/ ./inference/
+COPY ui/ ./ui/
+COPY server/ ./server/
+COPY openenv.yaml .
+
+ENV PYTHONPATH=/app
+
+EXPOSE 8000
+
+CMD ["python", "-m", "uvicorn", "server.app:app", "--host", "0.0.0.0", "--port", "8000"]
